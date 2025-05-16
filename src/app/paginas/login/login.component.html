@@ -1,0 +1,16 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2>Iniciar sesión</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+      <input type="email" formControlName="email" class="form-input" placeholder="Correo electronico" />
+      <input type="password" formControlName="password" class="form-input" placeholder="Contrasena" />
+
+      <button class="btn-login" type="submit" [disabled]="loginForm.invalid">Iniciar sesión</button>
+    </form>
+
+    <p class="login-register-text">
+      ¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a>
+    </p>
+  </div>
+</div>

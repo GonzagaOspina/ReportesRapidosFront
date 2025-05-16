@@ -1,0 +1,64 @@
+.inicio-wrapper {
+  background-color: #e0e0e0;
+  padding: 60px 20px;
+  min-height: calc(100vh - 160px); /* para dejar espacio al header y footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inicio-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.inicio-texto {
+  flex: 1 1 50%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.inicio-texto h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.inicio-texto p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.btn-registrate {
+  background-color: #7cff91;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.btn-registrate:hover {
+  background-color: #63e67d;
+}
+
+.inicio-imagen {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-placeholder {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  width: 250px;
+  height: 250px;
+}
