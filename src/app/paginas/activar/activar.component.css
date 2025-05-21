@@ -1,0 +1,47 @@
+body {
+  background-color: #e5e5e5; /* fondo gris claro */
+}
+
+.registro-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registro-card {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(72, 239, 109, 0.25);
+}
+
+button.btn-success {
+  background-color: #69f77b;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+button.btn-success:hover {
+  background-color: #50db62;
+}

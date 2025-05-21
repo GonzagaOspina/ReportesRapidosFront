@@ -3,6 +3,8 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 
 import { HeaderComponent } from './componenetes/header/header.component';
 import { FooterComponent } from './componenetes/footer/footer.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -10,12 +12,13 @@ import { FooterComponent } from './componenetes/footer/footer.component';
   imports: [
     RouterOutlet,
     RouterLink,
-    HeaderComponent, // 👈 Aquí lo agregas
-    FooterComponent  // 👈 Y aquí también
+    HeaderComponent, 
+     ReactiveFormsModule,
+    FooterComponent  
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'VS_ReportesRapidos';
+  title = 'ReportesRapidos';
 }

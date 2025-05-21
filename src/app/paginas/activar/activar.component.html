@@ -1,0 +1,40 @@
+<div class="registro-wrapper">
+  <div class="registro-card">
+
+    <h2 class="text-center fw-bold mb-3">Activacion de cuenta</h2>
+    <p class="text-center mb-4">
+      Hemos enviado un codigo a tu correo electronico.<br />
+      Ingresa el codigo para validar tu cuenta
+    </p>
+
+    <form [formGroup]="activarForm" (ngSubmit)="activarCuenta()" novalidate>
+
+      <input
+        id="codigo"
+        type="text"
+        formControlName="codigo"
+        class="form-input"
+        placeholder="Codigo de validacion"
+      />
+
+      @if (activarForm.invalid && activarForm.touched) {
+        <div class="alert alert-danger mt-3" role="alert">
+          Por favor completa los campos correctamente.
+        </div>
+      }
+
+      @if (errorActivar()) {
+        <div class="alert alert-danger mt-3" role="alert">
+          Código inválido o expirado. ❌
+        </div>
+      }
+
+      <div class="text-center mt-3">
+        <button class="btn btn-success w-100 rounded-pill py-2" type="submit" [disabled]="activarForm.invalid">
+          Activar cuenta
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

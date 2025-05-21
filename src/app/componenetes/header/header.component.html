@@ -1,16 +1,48 @@
-<header class="custom-header">
+<header class="bg-light py-3 shadow-sm rounded-bottom">
   <div class="container">
-    <div class="header-left">
-      <span class="logo">Reportes Rapidos</span>
-    </div>
-    <nav class="header-nav">
-      <a routerLink="/" class="nav-link">Inicio</a>
-      <a routerLink="/registro" class="nav-link">Registrarse</a>
-      <a routerLink="/como-funciona" class="nav-link">Como funciona</a>
-      <a routerLink="/contacto" class="nav-link">Contacto</a>
-    </nav>
-    <div class="header-right">
-      <a routerLink="/login" class="login-btn">Iniciar sesión</a>
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      
+      <!-- Logo + Título -->
+      <a routerLink="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none fs-4 fw-bold">
+        {{ title }}
+      </a>
+
+      <!-- Navegación -->
+      <ul class="nav me-auto ms-4">
+        <li><a routerLink="/" class="nav-link px-3 text-dark">Inicio</a></li>
+        <li><a routerLink="/perfil" class="nav-link px-3 text-dark">Reportes</a></li>
+        <li><a routerLink="/como-funciona" class="nav-link px-3 text-dark">Cómo funciona</a></li>
+        <li><a routerLink="/contacto" class="nav-link px-3 text-dark">Contacto</a></li>
+
+        <!-- Solo si está logueado -->
+        <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_CLIENTE'">
+          <li><a routerLink="/gestion-plan-entrenamiento" class="nav-link px-3 text-dark">Crear Reporte</a></li>
+        </ng-container>
+        <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_MODERADOR'">
+          <li><a routerLink="/gestion-plan-alimenticio" class="nav-link px-3 text-dark">Gestionar Reporte</a></li>
+        </ng-container>
+      </ul>
+
+      <!-- Botones a la derecha -->
+      <div class="text-end">
+        <ng-container *ngIf="(isLoggedIn$ | async) === false">
+          <button routerLink="/login" class="btn btn-outline-dark me-2">
+            <i class="fas fa-user"></i> Iniciar sesión
+          </button>
+          <button routerLink="/registro" class="btn btn-success">Registro</button>
+        </ng-container>
+
+        <ng-container *ngIf="(isLoggedIn$ | async) === true">
+          <div routerLink="/perfil" class="btn btn-success rounded-pill px-4 text-white fw-semibold">
+            Bienvenido<br />
+            {{ fechaActual }}
+          </div>
+          <button (click)="logout()" class="btn btn-danger ms-2">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+          </button>
+        </ng-container>
+      </div>
+
     </div>
   </div>
 </header>

@@ -1,35 +1,48 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../servicios/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  errorMessage = '';
+  isLoading = false; // <-- agrega esta línea
 
-  constructor(private formBuilder: FormBuilder) {
-    this.crearFormulario();
-  }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
-  private crearFormulario() {
-    this.loginForm = this.formBuilder.group({
+  ngOnInit() {
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(7)]]
     });
   }
 
-  public login() {
-    if (this.loginForm.valid) {
-      console.log('Login enviado:', this.loginForm.value);
-    } else {
-      console.warn('Formulario inválido');
-    }
+  onSubmit() {
+    if (this.loginForm.invalid) return;
+    this.isLoading = true; // <-- activa el loading
+    const { email, password } = this.loginForm.value;
+    this.auth.login(email!, password!).subscribe({
+      next: () => {
+        this.isLoading = false; // <-- desactiva al terminar
+        this.router.navigate(['/perfil']);
+      },
+      error: (err) => {
+        this.isLoading = false; // <-- desactiva al fallar
+        console.error('ERROR completo:', err); // 🔥 AÑADE ESTO
+        this.errorMessage = 'Credenciales incorrectas';
+      }
+    });
   }
-
 }
