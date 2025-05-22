@@ -16,7 +16,8 @@
 
         <!-- Solo si está logueado -->
         <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_CLIENTE'">
-          <li><a routerLink="/gestion-plan-entrenamiento" class="nav-link px-3 text-dark">Crear Reporte</a></li>
+        <a routerLink="/crear-reporte" class="nav-link">Crear reporte</a>
+
         </ng-container>
         <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_MODERADOR'">
           <li><a routerLink="/gestion-plan-alimenticio" class="nav-link px-3 text-dark">Gestionar Reporte</a></li>

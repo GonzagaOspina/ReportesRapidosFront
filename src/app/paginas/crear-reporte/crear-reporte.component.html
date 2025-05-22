@@ -1,0 +1,32 @@
+<div class="form-wrapper">
+  <h2>Crear reporte</h2>
+
+  <form [formGroup]="crearReporteForm" (ngSubmit)="crearReporte()">
+
+    <input formControlName="titulo" type="text" placeholder="Título" />
+
+    <textarea formControlName="descripcion" placeholder="Descripción del problema"></textarea>
+
+    <select formControlName="categoria">
+      <option value="">Seleccione una categoría</option>
+      <option *ngFor="let c of categorias" [value]="c.id">{{ c.nombre }}</option>
+    </select>
+
+    <select formControlName="ciudad">
+      <option value="">Seleccione una ciudad</option>
+      <option value="ARMENIA">Armenia</option>
+      <option value="CIRCASIA">Circasia</option>
+      <option value="SALENTO">Salento</option>
+    </select>
+
+    <div class="col-12">
+    <label class="form-label">Ubicación:</label>
+    <div id="mapa"></div>
+    </div>
+
+
+    <input type="file" multiple (change)="onArchivoSeleccionado($event)" />
+    
+    <button type="submit">Crear reporte</button>
+  </form>
+</div>
