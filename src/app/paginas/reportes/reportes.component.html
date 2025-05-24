@@ -1,0 +1,23 @@
+<div class="reportes-container">
+  <h2>Reportes</h2>
+
+  <p>¿Quieres crear un reporte? Adelante.
+    <a routerLink="/crear-reporte" class="boton-crear">Crear</a>
+  </p>
+
+  <div *ngFor="let reporte of reportes" class="reporte-card">
+    <div class="estado-indicador" [ngClass]="getEstadoClass(reporte.estadoActual)"></div>
+
+    <div class="reporte-info">
+      <p><strong>Título:</strong> {{ reporte.titulo }}</p>
+      <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
+      <p><strong>No. imágenes:</strong> {{ reporte.imagenes?.length }} archivos adjuntos</p>
+      <p><strong>¿Resuelto?:</strong> {{ reporte.estadoActual === 'RESUELTO' ? 'Sí' : 'No' }}</p>
+      <p><strong>Ubicación:</strong> Lat: {{ reporte.ubicacion?.latitud }}, Lng: {{ reporte.ubicacion?.longitud }}</p>
+    </div>
+
+    <div class="reporte-acciones">
+      <a routerLink="['/reportes', reporte.id]" class="detalles-link">Ver detalles reporte >></a>
+    </div>
+  </div>
+</div>

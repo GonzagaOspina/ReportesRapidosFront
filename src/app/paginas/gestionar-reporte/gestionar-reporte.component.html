@@ -1,0 +1,33 @@
+<div class="reportes-container">
+  <h2>Reportes Pendientes</h2>
+
+  <div *ngFor="let reporte of reportes" class="reporte-card">
+    <!-- Indicador de color del estado -->
+    <div class="estado-indicador" [ngClass]="getEstadoClass(reporte.estadoActual)"></div>
+
+    <!-- Info del reporte -->
+    <div class="reporte-info">
+      <p><strong>Título:</strong> {{ reporte.titulo }}</p>
+      <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
+      <p><strong>No. imágenes:</strong> {{ reporte.imagenes?.length }} archivos adjuntos</p>
+      <p><strong>¿Resuelto?:</strong> {{ reporte.estadoActual === 'RESUELTO' ? 'Sí' : 'No' }}</p>
+      <p><strong>Ubicación:</strong> Lat: {{ reporte.ubicacion?.latitud }}, Lng: {{ reporte.ubicacion?.longitud }}</p>
+    </div>
+
+    <!-- Formulario de cambio de estado -->
+    <div class="reporte-acciones">
+      <label for="estado">Nuevo estado:</label>
+      <select id="estado" [(ngModel)]="reporte.nuevoEstado">
+        <option value="VERIFICADO">VERIFICADO</option>
+        <option value="RECHAZADO">RECHAZADO</option>
+        <option value="RESUELTO">RESUELTO</option>
+        <option value="PENDIENTE" disabled>PENDIENTE</option>
+        <option value="ELIMINADO" disabled>ELIMINADO</option>
+      </select>
+
+      <input [(ngModel)]="reporte.motivo" placeholder="Motivo del cambio" />
+
+      <button (click)="cambiarEstado(reporte)">Cambiar estado</button>
+    </div>
+  </div>
+</div>

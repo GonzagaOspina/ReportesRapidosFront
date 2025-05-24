@@ -6,7 +6,7 @@ import { CrearUsuarioDTO } from '../../dto/usuario/crear-usuario-dto';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioDTO } from '../../dto/usuario/usuario-dto';
-import { EditarUsuarioDTO } from '../../dto/usuario/editat-usuario0dto';
+import { EditarUsuarioDTO } from '../../dto/usuario/editat-usuario-dto';
 import { Ciudad } from '../../enum/ciudad.enum';
 @Component({
   selector: 'app-registro',
@@ -41,7 +41,7 @@ export class RegistroComponent implements OnInit {
     if (this.esPerfil) {
       this.usuarioService.obtenerUsuario().subscribe({
         next: (res) => {
-          this.usuario = res.mensaje;
+          this.usuario = res.respuesta;
           if (this.usuario) {
             this.registroForm.patchValue(this.usuario);
             Object.keys(this.registroForm.controls).forEach(control => {

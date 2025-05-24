@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ReportesService } from '../../servicios/reportes.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MapaService } from '../../servicios/mapa.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CrearReporteDTO } from '../../dto/reporte/crear-reporte-dto';
 
 @Component({
@@ -17,9 +16,12 @@ import { CrearReporteDTO } from '../../dto/reporte/crear-reporte-dto';
 export class CrearReporteComponent implements OnInit {
 
   crearReporteForm!: FormGroup;
-  categorias: { id: string, nombre: string }[] = [];
+
+  categorias: { id: string; nombre: string; descripcion: string }[] = [];
+  categoriaSeleccionadaDescripcion: string = '';
+
   imagenesUrl: string[] = [];
-  cargandoImagen: boolean = false; // 🌀 Muestra spinner mientras se sube
+  cargandoImagen: boolean = false;
   mensajeError: string = '';
 
   constructor(
@@ -30,6 +32,13 @@ export class CrearReporteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.crearFormulario();
+    this.cargarCategorias();
+    this.inicializarMapa();
+    this.detectarCambioCategoria();
+  }
+
+  private crearFormulario() {
     this.crearReporteForm = this.fb.group({
       titulo: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -40,22 +49,33 @@ export class CrearReporteComponent implements OnInit {
         longitud: [-75.6757, Validators.required]
       }),
     });
+  }
 
-    this.obtenerCategorias();
-    // Suscribirse al marcador del mapa
+  private cargarCategorias() {
+    this.reporteService.obtenerCategorias().subscribe({
+      next: (res) => this.categorias = res,
+      error: (err) => {
+        console.error('❌ Error al cargar categorías:', err);
+        this.mensajeError = 'No se pudieron cargar las categorías';
+        this.categorias = [];
+      }
+    });
+  }
+
+  private detectarCambioCategoria() {
+    this.crearReporteForm.get('categoria')?.valueChanges.subscribe((categoriaId: string) => {
+      const categoria = this.categorias.find(c => c.id === categoriaId);
+      this.categoriaSeleccionadaDescripcion = categoria ? categoria.descripcion : '';
+    });
+  }
+
+  private inicializarMapa() {
     this.mapaService.crearMapa();
-    this.mapaService.agregarMarcador().subscribe((marcador: { lat: number, lng: number }) => {
+    this.mapaService.agregarMarcador().subscribe((marcador: { lat: number; lng: number }) => {
       this.crearReporteForm.get('ubicacion')?.setValue({
         latitud: marcador.lat,
         longitud: marcador.lng,
       });
-    });
-  }
-
-  obtenerCategorias() {
-    this.reporteService.obtenerCategorias().subscribe({
-      next: (cats) => this.categorias = cats,
-      error: () => this.mensajeError = 'No se pudieron cargar las categorías'
     });
   }
 
@@ -79,8 +99,7 @@ export class CrearReporteComponent implements OnInit {
     if (archivos.length === 0) return;
 
     for (let i = 0; i < archivos.length; i++) {
-      const archivo = archivos[i];
-      this.subirImagenACloudinary(archivo);
+      this.subirImagenACloudinary(archivos[i]);
     }
   }
 
@@ -89,7 +108,8 @@ export class CrearReporteComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('file', archivo);
-    formData.append('upload_preset', 'reportes-rapidos'); // ⚠️ Tu upload_preset
+    formData.append('upload_preset', 'reportes-rapidos');
+
     fetch('https://api.cloudinary.com/v1_1/dgniqy2kw/image/upload', {
       method: 'POST',
       body: formData
