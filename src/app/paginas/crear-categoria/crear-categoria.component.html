@@ -1,0 +1,15 @@
+<h2>Crear nueva categoría</h2>
+
+<form [formGroup]="categoriaForm" (ngSubmit)="crearCategoria()">
+  <label>
+    Nombre:
+    <input type="text" formControlName="nombre" />
+  </label>
+
+  <label>
+    Descripción:
+    <textarea formControlName="descripcion"></textarea>
+  </label>
+
+  <button type="submit">Crear categoría</button>
+</form>

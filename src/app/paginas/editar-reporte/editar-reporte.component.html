@@ -1,0 +1,41 @@
+<p>editar-reporte works!</p>
+<div class="form-wrapper">
+  <h2>Editar reporte</h2>
+
+  <form [formGroup]="editarReporteForm" (ngSubmit)="actualizarReporte()">
+
+    <input formControlName="titulo" type="text" placeholder="Título" />
+
+    <textarea formControlName="descripcion" placeholder="Descripción del problema"></textarea>
+
+    <label for="categoria">Categoría:</label>
+    <select formControlName="categoria">
+      <option value="">Seleccione una categoría</option>
+      <option *ngFor="let c of categorias" [value]="c.id">{{ c.nombre }}</option>
+    </select>
+
+    <div *ngIf="categoriaSeleccionadaDescripcion" class="info">
+      {{ categoriaSeleccionadaDescripcion }}
+    </div>
+
+    <select formControlName="ciudad">
+      <option value="">Seleccione una ciudad</option>
+      <option value="ARMENIA">Armenia</option>
+      <option value="CIRCASIA">Circasia</option>
+      <option value="SALENTO">Salento</option>
+    </select>
+
+    <label>Ubicación:</label>
+    <div id="mapa"></div>
+
+    <input type="file" multiple (change)="onArchivoSeleccionado($event)" />
+    <div *ngIf="cargandoImagen">Subiendo imagen...</div>
+
+    <div *ngIf="imagenesUrl.length > 0">
+      <p>✅ Imágenes:</p>
+      <img *ngFor="let url of imagenesUrl" [src]="url" width="100" />
+    </div>
+
+    <button type="submit">Guardar cambios</button>
+  </form>
+</div>

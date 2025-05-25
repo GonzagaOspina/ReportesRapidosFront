@@ -1,0 +1,43 @@
+.reporte-detalle-container {
+  border: 2px solid #ccc;
+  padding: 25px;
+  width: 90%;
+  max-width: 850px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.titulo {
+  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+.contenido {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.texto {
+  flex: 1;
+}
+
+.imagenes {
+  width: 240px;
+  text-align: center;
+}
+
+.importante {
+  margin-top: 20px;
+}
+
+.btn-like, .btn-dislike {
+  margin: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
 import { UsuarioDTO } from '../../dto/usuario/usuario-dto';
-import { EditarUsuarioDTO } from '../../dto/usuario/editat-usuario0dto';
+import { EditarUsuarioDTO } from '../../dto/usuario/editat-usuario-dto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ciudad } from '../../enum/ciudad.enum';
@@ -42,20 +42,25 @@ exitoCambioClave = '';
     public router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.usuarioService.obtenerUsuario().subscribe({
-      next: (res) => {
-        this.usuario = res.mensaje;
+ngOnInit(): void {
+  this.usuarioService.obtenerUsuario().subscribe({
+    next: (res) => {
+      this.usuario = res.respuesta; // ✅ CAMBIO AQUÍ
+      if (this.usuario) {
         this.usuarioEditado = this.mapUsuarioToDTO(this.usuario);
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar el perfil:', err);
-        this.error = err?.error?.mensaje || 'No tienes permisos para acceder a este recurso.';
-        this.cargando = false;
+      } else {
+        console.warn('⚠️ El perfil recibido está vacío');
       }
-    });
-  }
+      this.cargando = false;
+    },
+    error: (err) => {
+      console.error('❌ Error al cargar el perfil:', err);
+      this.error = err?.error?.respuesta || 'No tienes permisos para acceder a este recurso.';
+      this.cargando = false;
+    }
+  });
+}
+
 
   activarEdicion(): void {
     this.editando = true;

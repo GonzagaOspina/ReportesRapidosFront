@@ -1,53 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ReportesService } from '../../servicios/reportes.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ReportesService } from '../../servicios/reportes.service';
 import { MapaService } from '../../servicios/mapa.service';
-import { CrearReporteDTO } from '../../dto/reporte/crear-reporte-dto';
+import { CategoriaDTO } from '../../servicios/reportes.service';
+import { EditarReporteDTO } from '../../dto/reporte/editar-reporte-dto';
+import { ReporteDTO } from '../../dto/reporte/reporte-dto';
 
 @Component({
-  selector: 'app-crear-reporte',
-  templateUrl: './crear-reporte.component.html',
-  styleUrls: ['./crear-reporte.component.css'],
-  imports: [CommonModule, ReactiveFormsModule],
-  standalone: true
+  selector: 'app-editar-reporte',
+  templateUrl: './editar-reporte.component.html',
+  styleUrls: ['./editar-reporte.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
-export class CrearReporteComponent implements OnInit {
+export class EditarReporteComponent implements OnInit {
 
-  crearReporteForm!: FormGroup;
-
-  categorias: { id: string; nombre: string; descripcion: string }[] = [];
-  categoriaSeleccionadaDescripcion: string = '';
-
+  editarReporteForm!: FormGroup;
+  categorias: CategoriaDTO[] = [];
+  categoriaSeleccionadaDescripcion = '';
   imagenesUrl: string[] = [];
-  cargandoImagen: boolean = false;
-  mensajeError: string = '';
+  cargandoImagen = false;
+  reporteId: string = '';
+  error: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private reporteService: ReportesService,
+    private route: ActivatedRoute,
     private router: Router,
+    private reporteService: ReportesService,
     private mapaService: MapaService
   ) {}
 
   ngOnInit(): void {
+    this.reporteId = this.route.snapshot.paramMap.get('id') || '';
     this.crearFormulario();
     this.cargarCategorias();
     this.inicializarMapa();
-    this.detectarCambioCategoria();
+
+    if (this.reporteId) {
+      this.cargarDatosDelReporte();
+    }
   }
 
   private crearFormulario() {
-    this.crearReporteForm = this.fb.group({
+    this.editarReporteForm = this.fb.group({
       titulo: ['', Validators.required],
       descripcion: ['', Validators.required],
       categoria: ['', Validators.required],
       ciudad: ['', Validators.required],
       ubicacion: this.fb.group({
-        latitud: [4.5321, Validators.required],   // Armenia por defecto
-        longitud: [-75.6757, Validators.required]
-      }),
+        latitud: [null, Validators.required],
+        longitud: [null, Validators.required]
+      })
     });
   }
 
@@ -55,43 +61,51 @@ export class CrearReporteComponent implements OnInit {
     this.reporteService.obtenerCategorias().subscribe({
       next: (res) => this.categorias = res,
       error: (err) => {
-        console.error('❌ Error al cargar categorías:', err);
-        this.mensajeError = 'No se pudieron cargar las categorías';
-        this.categorias = [];
+        console.error('Error cargando categorías:', err);
+        this.error = 'No se pudieron cargar las categorías';
       }
     });
   }
 
-  private detectarCambioCategoria() {
-    this.crearReporteForm.get('categoria')?.valueChanges.subscribe((categoriaId: string) => {
-      const categoria = this.categorias.find(c => c.id === categoriaId);
-      this.categoriaSeleccionadaDescripcion = categoria ? categoria.descripcion : '';
+  private cargarDatosDelReporte() {
+    this.reporteService.obtenerReportePorId(this.reporteId).subscribe({
+      next: (reporte: ReporteDTO) => {
+        if (!reporte.ubicacion) {
+          console.warn('⚠️ Reporte sin ubicación, se usará valor por defecto');
+          reporte.ubicacion = { latitud: 4.5321, longitud: -75.6757 };
+        }
+
+        this.editarReporteForm.patchValue({
+          titulo: reporte.titulo,
+          descripcion: reporte.descripcion,
+          categoria: reporte.categoria,
+          ciudad: reporte.ciudad,
+          ubicacion: {
+            latitud: reporte.ubicacion.latitud,
+            longitud: reporte.ubicacion.longitud
+          }
+        });
+
+        this.imagenesUrl = reporte.imagenes || [];
+
+        const cat = this.categorias.find(c => c.id === reporte.categoria);
+        this.categoriaSeleccionadaDescripcion = cat ? cat.descripcion : '';
+      },
+      error: (err) => {
+        console.error('Error al obtener reporte por ID:', err);
+        this.error = 'No se pudo cargar la información del reporte';
+      }
     });
   }
 
   private inicializarMapa() {
     this.mapaService.crearMapa();
     this.mapaService.agregarMarcador().subscribe((marcador: { lat: number; lng: number }) => {
-      this.crearReporteForm.get('ubicacion')?.setValue({
+      this.editarReporteForm.get('ubicacion')?.setValue({
         latitud: marcador.lat,
         longitud: marcador.lng,
       });
     });
-  }
-
-  ubicarEnMapa() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        this.crearReporteForm.patchValue({
-          ubicacion: {
-            latitud: pos.coords.latitude,
-            longitud: pos.coords.longitude
-          }
-        });
-      });
-    } else {
-      alert('Geolocalización no soportada por el navegador');
-    }
   }
 
   onArchivoSeleccionado(event: any): void {
@@ -132,8 +146,8 @@ export class CrearReporteComponent implements OnInit {
       });
   }
 
-  crearReporte() {
-    if (this.crearReporteForm.invalid) {
+  actualizarReporte() {
+    if (this.editarReporteForm.invalid) {
       alert('❌ Completa todos los campos');
       return;
     }
@@ -148,28 +162,27 @@ export class CrearReporteComponent implements OnInit {
       return;
     }
 
-    const formValue = this.crearReporteForm.value;
+    const formValue = this.editarReporteForm.value;
 
-    const dto: CrearReporteDTO = {
+    const dto: EditarReporteDTO = {
       titulo: formValue.titulo,
       descripcion: formValue.descripcion,
       categoria: formValue.categoria,
-      ciudad: formValue.ciudad,
       ubicacion: {
         latitud: formValue.ubicacion.latitud,
         longitud: formValue.ubicacion.longitud
       },
-      imagenes: this.imagenesUrl
+      imagen: this.imagenesUrl
     };
 
-    this.reporteService.crearReporte(dto).subscribe({
+    this.reporteService.editarReporte(this.reporteId, dto).subscribe({
       next: () => {
-        alert('✅ Reporte creado con éxito');
-        this.router.navigate(['/']);
+        alert('✅ Reporte actualizado con éxito');
+        this.router.navigate(['/mis-reportes']);
       },
       error: (err) => {
         console.error(err);
-        alert('❌ Error al crear reporte: ' + err.message);
+        alert('❌ Error al actualizar reporte: ' + err.message);
       }
     });
   }
