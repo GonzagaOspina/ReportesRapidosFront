@@ -1,0 +1,43 @@
+<div class="dashboard-container">
+  <div class="sidebar">
+    <div class="avatar">
+      <img src="assets/avatar-placeholder.png" alt="Avatar" />
+    </div>
+    <ul class="menu">
+      <li>🧍 Mi perfil</li>
+      <li class="active">📄 Mis reportes</li>
+      <li>💬 Mis comentarios</li>
+      <li>🔔 Notificaciones</li>
+      <li>📊 Estadísticas</li>
+    </ul>
+  </div>
+
+  <div class="profile-content">
+    <h3>📄 Mis Reportes</h3>
+
+    <div *ngIf="cargando">Cargando reportes...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <div *ngIf="!cargando && !error" class="profile-form">
+      <div *ngIf="reportes.length === 0">
+        <p>😓 Aún no has creado reportes.</p>
+      </div>
+
+      <div *ngFor="let reporte of reportes" class="reporte-card">
+        <div class="estado-indicador" [ngClass]="getEstadoClass(reporte.estadoActual)"></div>
+
+        <div class="reporte-info">
+          <p><strong>Título:</strong> {{ reporte.titulo }}</p>
+          <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
+          <p><strong>Ciudad:</strong> {{ reporte.ciudad }}</p>
+          <p><strong>No. imágenes:</strong> {{ reporte.imagenes?.length || 0 }}</p>
+          <p><strong>Ubicación:</strong> Lat: {{ reporte.ubicacion?.latitud }}, Lng: {{ reporte.ubicacion?.longitud }}</p>
+          <p><strong>Estado actual:</strong> {{ reporte.estadoActual }}</p>
+        </div>
+          <div class="reporte-acciones">
+        <button (click)="irAEditar(reporte.id)" class="btn btn-warning">✏️ Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

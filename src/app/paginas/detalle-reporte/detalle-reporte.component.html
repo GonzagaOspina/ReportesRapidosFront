@@ -1,0 +1,31 @@
+<div class="reporte-detalle-container" *ngIf="reporte">
+  <h2 class="titulo">Titulo: {{ reporte.titulo }}</h2>
+  <hr />
+
+  <div class="contenido">
+    <div class="texto">
+      <h4>Descripción</h4>
+      <p>{{ reporte.descripcion }}</p>
+
+      <p><strong>Resuelto:</strong> {{ reporte.estadoActual === 'RESUELTO' ? 'SI' : 'NO' }}</p>
+      <p><strong>Categoría:</strong> {{ reporte.categoria }}</p>
+      <p><strong>Ubicación:</strong> {{ ubicacionTexto }} <a href="#" (click)="verEnMapa()">Ver en mapa</a></p>
+
+      <div class="importante">
+        <p><strong>¿Considera este reporte importante?</strong></p>
+        <button (click)="marcarImportante(true)" class="btn-like">✅</button>
+        <button (click)="marcarImportante(false)" class="btn-dislike">❌</button>
+      </div>
+    </div>
+
+    <div class="imagenes">
+      <h5>Galería imágenes</h5>
+<img *ngIf="reporte?.imagenes && reporte.imagenes.length > 0" [src]="reporte.imagenes[imagenActual]" width="200" />
+<p *ngIf="reporte?.imagenes">Imagen {{ imagenActual + 1 }} de {{ reporte.imagenes.length }}</p>
+        <div *ngIf="reporte?.imagenes && reporte.imagenes.length > 1">
+        <button (click)="anterior()">⬅️</button>
+        <button (click)="siguiente()">➡️</button>
+        </div>
+    </div>
+  </div>
+</div>
