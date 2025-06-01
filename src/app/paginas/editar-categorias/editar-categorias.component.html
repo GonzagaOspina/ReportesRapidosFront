@@ -1,7 +1,7 @@
 <div class="form-wrapper">
-  <h2 class="titulo">➕ Crear nueva categoría</h2>
+  <h2 class="titulo">✏️ Editar categoría</h2>
 
-  <form [formGroup]="categoriaForm" (ngSubmit)="crearCategoria()" class="categoria-form">
+  <form [formGroup]="categoriaForm" (ngSubmit)="actualizarCategoria()" class="categoria-form">
     <div class="form-group">
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" formControlName="nombre" placeholder="Ej: Basuras, Seguridad..." />
@@ -12,6 +12,6 @@
       <textarea id="descripcion" formControlName="descripcion" placeholder="Breve descripción de la categoría..."></textarea>
     </div>
 
-    <button type="submit" class="btn-crear">Crear categoría</button>
+    <button type="submit" class="btn-crear">Guardar cambios</button>
   </form>
 </div>

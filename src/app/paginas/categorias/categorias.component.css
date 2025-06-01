@@ -11,35 +11,15 @@
   color: #333;
 }
 
-.crear-texto {
-  text-align: right;
-  margin-bottom: 20px;
-}
-
-.btn-crear {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 .reporte-card {
   background-color: #fff;
   border: 2px solid #e0e0e0;
-  border-left: 8px solid #ccc;
+  border-left: 8px solid #007bff;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: border-left 0.3s;
-}
-
-.estado-indicador {
-  width: 10px;
-  height: 100%;
-  position: absolute;
 }
 
 .reporte-info p {
@@ -59,18 +39,37 @@
   border-radius: 5px;
   text-decoration: none;
   font-weight: 500;
+  margin-left: 8px;
+  border: none;
 }
 
 .btn-detalles:hover {
   background-color: #0056b3;
 }
 
-.reporte-card:hover {
-  border-left-color: #007bff;
+.btn-danger {
+  background-color: #dc3545;
 }
 
-/* Estado dinámico */
-.estado-indicador.pendiente { border-left-color: #ffc107; }
-.estado-indicador.resuelto { border-left-color: #28a745; }
-.estado-indicador.rechazado { border-left-color: #dc3545; }
-.estado-indicador.verificado { border-left-color: #17a2b8; }
+.btn-danger:hover {
+  background-color: #b02a37;
+}
+.crear-categoria-btn {
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+
+button.btn-success {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button.btn-success:hover {
+  background-color: #218838;
+}

@@ -1,85 +1,79 @@
-.dashboard-container {
-  display: flex;
-  height: 100%;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  overflow: hidden;
+.perfil-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #2ecc71;
-  color: white;
-  padding: 20px;
+.perfil-container h2 {
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #222;
+}
+
+.perfil-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.avatar img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background-color: white;
-  margin-bottom: 20px;
-}
-
-.menu {
-  list-style: none;
-  padding: 0;
-  width: 100%;
-}
-
-.menu li {
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  background-color: transparent;
-  text-align: center;
-}
-
-.menu li.active,
-.menu li:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  font-weight: bold;
-}
-
-.profile-content {
-  flex-grow: 1;
-  padding: 40px;
-  background-color: #ffffff;
-}
-
-.profile-form {
-  display: grid;
   gap: 15px;
 }
 
-.form-row {
-  display: flex;
-  flex-direction: column;
-}
-
 .form-row label {
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 5px;
+  display: block;
+  color: #333;
 }
 
-.form-row input {
-  padding: 8px;
+.form-row input,
+.form-row select {
+  width: 100%;
+  padding: 8px 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .form-actions {
-  margin-top: 30px;
+  margin-top: 25px;
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
-.edit-buttons {
-  display: flex;
-  gap: 10px;
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 6px;
+  color: #721c24;
+  margin-bottom: 15px;
 }

@@ -1,0 +1,27 @@
+<div class="reportes-container">
+  <h2 class="titulo">📁 Categorías</h2>
+
+  <!-- ✅ Botón para crear nueva categoría -->
+  <div class="crear-categoria-btn">
+    <button class="btn btn-success" [routerLink]="['/crear-categoria']">➕ Crear nueva categoría</button>
+  </div>
+
+  <div *ngIf="cargando" class="text-muted">⏳ Cargando categorías...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!cargando && categorias.length === 0">
+    <p class="text-muted">😕 No hay categorías creadas.</p>
+  </div>
+
+  <div *ngFor="let cat of categorias" class="reporte-card">
+    <div class="reporte-info">
+      <p><strong>Nombre:</strong> {{ cat.nombre }}</p>
+      <p><strong>Descripción:</strong> {{ cat.descripcion }}</p>
+    </div>
+
+    <div class="reporte-acciones">
+      <button class="btn btn-warning" [routerLink]="['/editar-categorias', cat.id]">✏️ Editar</button>
+      <button class="btn-detalles btn-danger" (click)="eliminarCategoria(cat.id)">🗑️ Eliminar</button>
+    </div>
+  </div>
+</div>

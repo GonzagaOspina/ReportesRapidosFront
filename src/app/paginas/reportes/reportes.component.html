@@ -1,10 +1,7 @@
 <div class="reportes-container">
-  <h2>Reportes</h2>
+  <h2 class="titulo">📋 Reportes</h2>
 
-  <p>¿Quieres crear un reporte? Adelante.
-    <a routerLink="/crear-reporte" class="boton-crear">Crear</a>
-  </p>
-
+ 
   <div *ngFor="let reporte of reportes" class="reporte-card">
     <div class="estado-indicador" [ngClass]="getEstadoClass(reporte.estadoActual)"></div>
 
@@ -17,7 +14,7 @@
     </div>
 
     <div class="reporte-acciones">
-      <a routerLink="['/reportes', reporte.id]" class="detalles-link">Ver detalles reporte >></a>
+      <a [routerLink]="['/detalle-reporte', reporte.id]" class="btn-detalles">Ver detalles >></a>
     </div>
   </div>
 </div>

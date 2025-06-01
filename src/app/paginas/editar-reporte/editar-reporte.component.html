@@ -18,12 +18,15 @@
       {{ categoriaSeleccionadaDescripcion }}
     </div>
 
-    <select formControlName="ciudad">
-      <option value="">Seleccione una ciudad</option>
-      <option value="ARMENIA">Armenia</option>
-      <option value="CIRCASIA">Circasia</option>
-      <option value="SALENTO">Salento</option>
-    </select>
+<div class="mb-3">
+  <label class="form-label">Ciudad</label>
+<select formControlName="ciudad" class="form-select">
+  <option value="">Seleccione una ciudad</option>
+  <option *ngFor="let ciudad of ciudades" [value]="ciudad[0]">
+    {{ ciudad[1] }}
+  </option>
+</select>
+</div>
 
     <label>Ubicación:</label>
     <div id="mapa"></div>

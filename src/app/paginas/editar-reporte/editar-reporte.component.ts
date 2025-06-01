@@ -7,6 +7,7 @@ import { MapaService } from '../../servicios/mapa.service';
 import { CategoriaDTO } from '../../servicios/reportes.service';
 import { EditarReporteDTO } from '../../dto/reporte/editar-reporte-dto';
 import { ReporteDTO } from '../../dto/reporte/reporte-dto';
+import { Ciudad } from '../../enum/ciudad.enum';
 
 @Component({
   selector: 'app-editar-reporte',
@@ -24,7 +25,7 @@ export class EditarReporteComponent implements OnInit {
   cargandoImagen = false;
   reporteId: string = '';
   error: string = '';
-
+  ciudades: [string, string][] = [];
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -42,8 +43,11 @@ export class EditarReporteComponent implements OnInit {
     if (this.reporteId) {
       this.cargarDatosDelReporte();
     }
+     this.cargarCiudades();
   }
-
+private cargarCiudades(): void {
+  this.ciudades = Object.entries(Ciudad).filter(([key, value]) => isNaN(Number(key)));
+}
   private crearFormulario() {
     this.editarReporteForm = this.fb.group({
       titulo: ['', Validators.required],

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MapaService } from '../../servicios/mapa.service';
 import { CrearReporteDTO } from '../../dto/reporte/crear-reporte-dto';
+import { Ciudad } from '../../enum/ciudad.enum';
 
 @Component({
   selector: 'app-crear-reporte',
@@ -23,7 +24,7 @@ export class CrearReporteComponent implements OnInit {
   imagenesUrl: string[] = [];
   cargandoImagen: boolean = false;
   mensajeError: string = '';
-
+  ciudades: [string, string][] = [];
   constructor(
     private fb: FormBuilder,
     private reporteService: ReportesService,
@@ -36,6 +37,8 @@ export class CrearReporteComponent implements OnInit {
     this.cargarCategorias();
     this.inicializarMapa();
     this.detectarCambioCategoria();
+    this.cargarCiudades(); // ✅ aquí se llena correctamente
+
   }
 
   private crearFormulario() {
@@ -61,7 +64,9 @@ export class CrearReporteComponent implements OnInit {
       }
     });
   }
-
+private cargarCiudades(): void {
+  this.ciudades = Object.entries(Ciudad).filter(([key, value]) => isNaN(Number(key)));
+}
   private detectarCambioCategoria() {
     this.crearReporteForm.get('categoria')?.valueChanges.subscribe((categoriaId: string) => {
       const categoria = this.categorias.find(c => c.id === categoriaId);

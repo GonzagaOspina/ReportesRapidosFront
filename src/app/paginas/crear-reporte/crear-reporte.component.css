@@ -27,3 +27,11 @@ button {
   border-radius: 4px;
 }
 
+img {
+  object-fit: cover;
+  max-height: 100px;
+}
+
+#mapa {
+  width: 100%;
+}

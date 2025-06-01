@@ -47,4 +47,21 @@ this.reportesService.obtenerReportesUsuario().subscribe({
   irAEditar(id: string): void {
   this.router.navigate(['/editar-reporte', id]);
 }
+eliminarReporte(id: string) {
+  const confirmado = confirm('¿Estás seguro de que deseas eliminar este reporte?');
+
+  if (!confirmado) return;
+
+  this.reportesService.eliminarReporte(id).subscribe({
+    next: () => {
+      alert('✅ Reporte eliminado correctamente');
+      this.reportes = this.reportes.filter(r => r.id !== id); // Quitarlo de la lista
+    },
+    error: (err) => {
+      console.error('❌ Error al eliminar:', err);
+      alert('No fue posible eliminar el reporte.');
+    }
+  });
+}
+
 }

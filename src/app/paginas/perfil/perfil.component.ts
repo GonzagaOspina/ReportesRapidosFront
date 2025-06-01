@@ -7,11 +7,12 @@ import { EditarUsuarioDTO } from '../../dto/usuario/editat-usuario-dto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ciudad } from '../../enum/ciudad.enum';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-cliente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterModule],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
@@ -140,4 +141,9 @@ ngOnInit(): void {
 irACambiarPassword(): void {
   this.router.navigate(['/cambiar-password']);
 }
+navegar(ruta: string) {
+      console.log('🔁 Navegando a:', ruta);
+
+    this.router.navigate([ruta]);
+  }
 }

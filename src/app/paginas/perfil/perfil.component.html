@@ -1,78 +1,53 @@
-<div class="dashboard-container">
-  <div class="sidebar">
-    <div class="avatar">
-<img src="https://ui-avatars.com/api/?name=Usuario" alt="Avatar" />
+<div class="perfil-container">
+  <h2>👤 Mi Perfil</h2>
+
+  <div *ngIf="cargando">⏳ Cargando perfil...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!cargando && !error" class="perfil-form">
+    <div class="form-row">
+      <label>Nombre completo:</label>
+      <div *ngIf="!editando">{{ usuario.nombre }}</div>
+      <input *ngIf="editando" [(ngModel)]="usuarioEditado.nombre" />
     </div>
-    <ul class="menu">
-      <li class="active">🧍 Mi perfil</li>
-      <li>📄 Mis reportes</li>
-      <li>💬 Mis comentarios</li>
-      <li>🔔 Notificaciones</li>
-      <li>📊 Estadísticas</li>
-    </ul>
-  </div>
 
-  <div class="profile-content">
-    <h3>👤 Mi Perfil</h3>
+    <div class="form-row">
+      <label>Teléfono:</label>
+      <div *ngIf="!editando">{{ usuario.telefono }}</div>
+      <input *ngIf="editando" [(ngModel)]="usuarioEditado.telefono" />
+    </div>
 
-    <div *ngIf="cargando">Cargando perfil...</div>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-
-    <div *ngIf="!cargando && !error" class="profile-form">
-      <div class="form-row">
-        <label>Nombre completo:</label>
-        <div *ngIf="!editando">{{ usuario.nombre }}</div>
-        <input *ngIf="editando" [(ngModel)]="usuarioEditado.nombre" />
-      </div>
-
-      <div class="form-row">
-        <label>Teléfono:</label>
-        <div *ngIf="!editando">{{ usuario.telefono }}</div>
-        <input *ngIf="editando" [(ngModel)]="usuarioEditado.telefono" />
-      </div>
-
-      <div class="form-row">
-        <label>Dirección:</label>
-        <div *ngIf="!editando">{{ usuario.direccion }}</div>
-        <input *ngIf="editando" [(ngModel)]="usuarioEditado.direccion" />
-      </div>
+    <div class="form-row">
+      <label>Dirección:</label>
+      <div *ngIf="!editando">{{ usuario.direccion }}</div>
+      <input *ngIf="editando" [(ngModel)]="usuarioEditado.direccion" />
+    </div>
 
     <div class="form-row">
       <label>Ciudad:</label>
-
-      <!-- Vista solo lectura -->
       <div *ngIf="!editando">{{ usuario.ciudad }}</div>
+      <select *ngIf="editando" [(ngModel)]="usuarioEditado.ciudad">
+        <option *ngFor="let ciudad of ciudades" [value]="ciudad[0]">
+          {{ ciudad[1] }}
+        </option>
+      </select>
+    </div>
 
-        <!-- Modo edición -->
-        <select *ngIf="editando" [(ngModel)]="usuarioEditado.ciudad">
-          <option *ngFor="let ciudad of ciudades" [value]="ciudad[0]">
-            {{ ciudad[1] }}
-          </option>
-        </select>
+    <div class="form-row">
+      <label>Correo electrónico:</label>
+      <div>{{ usuario.email }}</div>
+    </div>
+
+    <div class="form-actions">
+      <button *ngIf="!editando" (click)="activarEdicion()" class="btn btn-success">Actualizar perfil</button>
+
+      <div *ngIf="editando" class="edit-buttons">
+        <button (click)="actualizarUsuario()" class="btn btn-success">Guardar</button>
+        <button (click)="cancelarEdicion()" class="btn btn-secondary">Cancelar</button>
       </div>
 
-          <div class="form-row">
-            <label>Correo electrónico:</label>
-            <div>{{ usuario.email }}</div> <!-- no editable -->
-          </div>
-
-          <div class="form-actions">
-            <button *ngIf="!editando" (click)="activarEdicion()" class="btn btn-success">Actualizar perfil</button>
-
-            <div *ngIf="editando" class="edit-buttons">
-              <button (click)="actualizarUsuario()" class="btn btn-success">Guardar</button>
-              <button (click)="cancelarEdicion()" class="btn btn-secondary">Cancelar</button>
-              
-
-        </div>
-        <button (click)="irACambiarPassword()" class="btn btn-warning" type="button">
-  Cambiar contraseña
-</button>
-
-
-        <button (click)="eliminarCuenta()" class="btn btn-danger">Eliminar cuenta</button>
-
-      </div>
+      <button (click)="irACambiarPassword()" class="btn btn-warning" type="button">Cambiar contraseña</button>
+      <button (click)="eliminarCuenta()" class="btn btn-danger">Eliminar cuenta</button>
     </div>
   </div>
 </div>

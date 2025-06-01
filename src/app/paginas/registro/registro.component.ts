@@ -61,7 +61,7 @@ export class RegistroComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(100)]],
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       telefono: ['', [Validators.required]],
-      ciudad: ['', [Validators.required]],  // ✅ ahora sí existe
+      ciudad: ['', [Validators.required]], 
       email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(7)]],
       confirmarPassword: ['', [Validators.required]]
@@ -116,7 +116,7 @@ export class RegistroComponent implements OnInit {
       nombre: formData.nombre,
       telefono: formData.telefono,
       direccion: formData.direccion,
-      ciudad: formData.email
+      ciudad: formData.ciudad
     };
 
     this.usuarioService.editarUsuario(usuarioEditado).subscribe({

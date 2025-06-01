@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ReportesService } from '../../servicios/reportes.service';
 import { ReporteDTO } from '../../dto/reporte/reporte-dto';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-reportes',
     standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css']
 })
@@ -39,6 +41,7 @@ export class ReportesComponent implements OnInit {
     case 'RECHAZADO': return 'estado-rechazado';
     default: return '';
   }
+  
 }
 
 }

@@ -1,43 +1,28 @@
-.reporte-detalle-container {
-  border: 2px solid #ccc;
-  padding: 25px;
-  width: 90%;
-  max-width: 850px;
-  margin: auto;
-  font-family: 'Segoe UI', sans-serif;
+.card {
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 
-.titulo {
-  font-weight: bold;
-  font-size: 22px;
-  margin-bottom: 5px;
+h4, h5, h6 {
+  color: #333;
 }
 
-hr {
-  margin: 10px 0;
+p {
+  font-size: 15px;
+  color: #555;
 }
 
-.contenido {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.texto {
-  flex: 1;
-}
-
-.imagenes {
-  width: 240px;
-  text-align: center;
-}
-
-.importante {
-  margin-top: 20px;
+a {
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .btn-like, .btn-dislike {
-  margin: 5px;
-  font-size: 18px;
+  font-size: 20px;
+  margin-right: 5px;
   cursor: pointer;
+  border: none;
+  background: none;
 }
