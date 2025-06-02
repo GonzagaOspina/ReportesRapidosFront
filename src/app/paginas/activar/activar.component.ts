@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { UsuariosService } from '../../servicios/usuarios.service';
 
 @Component({
   standalone: true,
@@ -13,20 +13,19 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule,
-    HttpClientModule
+    RouterModule
   ]
 })
 export class ActivarComponent implements OnInit {
 
   activarForm: FormGroup;
-  errorActivar = signal(false); // Signal para usar con @if
+  errorActivar = signal(false);
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private usuariosService: UsuariosService
   ) {
     this.activarForm = this.fb.group({
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
@@ -47,18 +46,18 @@ export class ActivarComponent implements OnInit {
     if (this.activarForm.invalid) return;
 
     const formValue = {
-      email: this.activarForm.getRawValue().email, // getRawValue() permite acceder a campos deshabilitados
+      email: this.activarForm.getRawValue().email,
       codigo: this.activarForm.value.codigo
     };
 
-    this.http.post('http://localhost:8080/api/usuarios/activar', formValue)
+    this.usuariosService.activarUsuario(formValue.email, formValue.codigo)
       .subscribe({
         next: () => {
           alert('Cuenta activada correctamente ✅');
-          this.router.navigate(['/login']); // O donde quieras redirigir
+          this.router.navigate(['/login']);
         },
         error: () => {
-          this.errorActivar.set(true); // actualiza el signal
+          this.errorActivar.set(true);
         }
       });
   }
