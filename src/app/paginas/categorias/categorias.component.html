@@ -20,8 +20,8 @@
     </div>
 
     <div class="reporte-acciones">
-      <button class="btn btn-warning" [routerLink]="['/editar-categorias', cat.id]">✏️ Editar</button>
-      <button class="btn-detalles btn-danger" (click)="eliminarCategoria(cat.id)">🗑️ Eliminar</button>
+      <button *ngIf="cat.id" class="btn btn-warning" [routerLink]="['/editar-categorias', cat.id]">✏️ Editar</button>
+<button *ngIf="cat.id" class="btn-detalles btn-danger" (click)="eliminarCategoria(cat.id)">🗑️ Eliminar</button>
     </div>
   </div>
 </div>

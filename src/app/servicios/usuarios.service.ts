@@ -1,59 +1,72 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CrearUsuarioDTO } from '../dto/usuario/crear-usuario-dto';
 import { UsuarioDTO } from '../dto/usuario/usuario-dto';
-import { EditarUsuarioDTO } from '../dto/usuario/editat-usuario0dto';
-import { MensajeDTO   } from '../dto/mensaje-dto';
+import { EditarUsuarioDTO } from '../dto/usuario/editar-usuario-dto';
+import { MensajeDTO } from '../dto/mensaje-dto';
 import { AuthService } from './auth.service';
-import { map } from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  private apiUrl = 'http://localhost:8080/api/usuarios/registro';
-  private apiUrl2 = 'http://localhost:8080/api/usuarios';
-  private apiUrl3= 'http://localhost:8080/api/usuarios/eliminar';
-  private apiUrl4= 'http://localhost:8080/api/usuarios/perfil';
+  private readonly apiBase = 'http://localhost:8080/api/usuarios';
 
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
-
-  constructor(private http: HttpClient, private authService: AuthService) { }
-
-  crearUsuario(dto: CrearUsuarioDTO): Observable<MensajeDTO>{
-    return this.http.post<MensajeDTO>(this.apiUrl,dto);
-  }
-  
-  obtenerUsuario(): Observable<MensajeDTO> {
+  private get authHeaders(): HttpHeaders {
     const token = this.authService.getToken();
-    return this.http.get<MensajeDTO>(`${this.apiUrl4}`, {
-      headers: { Authorization: `Bearer ${token}` }
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
+  /**
+   * Crear un nuevo usuario (registro)
+   */
+  crearUsuario(dto: CrearUsuarioDTO): Observable<MensajeDTO<string>> {
+    return this.http.post<MensajeDTO<string>>(`${this.apiBase}/registro`, dto);
+  }
+
+  /**
+   * Obtener los datos del perfil del usuario autenticado
+   */
+  obtenerUsuario(): Observable<MensajeDTO<UsuarioDTO>> {
+    return this.http.get<MensajeDTO<UsuarioDTO>>(`${this.apiBase}/perfil`, {
+      headers: this.authHeaders
     });
   }
 
-    editarUsuario(dto: EditarUsuarioDTO): Observable<MensajeDTO> {
-    const token = this.authService.getToken();
-    return this.http.put<MensajeDTO>(`${this.apiUrl4}`, dto, {
-      headers: { Authorization: `Bearer ${token}` }
+  /**
+   * Editar los datos del perfil del usuario autenticado
+   */
+  editarUsuario(dto: EditarUsuarioDTO): Observable<MensajeDTO<string>> {
+    return this.http.put<MensajeDTO<string>>(`${this.apiBase}/perfil`, dto, {
+      headers: this.authHeaders
     });
   }
 
-    eliminarUsuario(): Observable<MensajeDTO> {
-    const token = this.authService.getToken();
-    return this.http.delete<MensajeDTO>(`${this.apiUrl3}`, {
-      headers: { Authorization: `Bearer ${token}` }
+  /**
+   * Eliminar la cuenta del usuario autenticado
+   */
+  eliminarUsuario(): Observable<MensajeDTO<string>> {
+    return this.http.delete<MensajeDTO<string>>(`${this.apiBase}/eliminar`, {
+      headers: this.authHeaders
     });
   }
-cambiarContrasena(actual: string, nueva: string): Observable<any> {
-  const token = this.authService.getToken();
-  return this.http.put('http://localhost:8080/api/usuarios/password', {
-    actual,
-    nueva
-  }, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-}
+
+  /**
+   * Cambiar la contraseña del usuario
+   */
+  cambiarContrasena(actual: string, nueva: string): Observable<MensajeDTO<string>> {
+    return this.http.put<MensajeDTO<string>>(`${this.apiBase}/password`, {
+      actual,
+      nueva
+    }, {
+      headers: this.authHeaders
+    });
+  }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReportesService, CategoriaDTO } from '../../servicios/reportes.service';
+import { ReportesService } from '../../servicios/reportes.service';
+import { CategoriaDTO } from '../../dto/categoria/categoria-dto';
 import { RouterModule } from '@angular/router';
 import { CategoriaService } from '../../servicios/categoria.service';
-
 @Component({
   selector: 'app-categorias',
   standalone: true,

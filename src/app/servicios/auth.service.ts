@@ -93,5 +93,16 @@ getUserInfoFromToken(): { name?: string, email?: string } | null {
   }
 }
 
+solicitarCodigoRecuperacion(email: string): Observable<any> {
+  return this.http.post(`${this.baseUrl}/recuerarPassword`, { email });
+}
+
+cambiarPassword(email: string, codigo: string, nuevoPassword: string): Observable<any> {
+  return this.http.post(`${this.baseUrl}/password/nuevo`, {
+    email,
+    codigo,
+    nuevoPassword
+  });
+}
 
 }

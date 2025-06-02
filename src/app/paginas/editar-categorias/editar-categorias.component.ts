@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CategoriaService, CategoriaDTO } from '../../servicios/categoria.service';
+import { CategoriaService} from '../../servicios/categoria.service';
+import { CategoriaDTO } from '../../dto/categoria/categoria-dto';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -59,6 +60,7 @@ export class EditarCategoriaComponent implements OnInit {
     }
 
     const categoriaActualizada: CategoriaDTO = {
+        id: this.categoriaId, // 👈 lo agregamos manualmente
       ...this.categoriaForm.value
     };
 

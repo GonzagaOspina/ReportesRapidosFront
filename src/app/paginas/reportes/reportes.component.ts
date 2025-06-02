@@ -21,11 +21,11 @@ export class ReportesComponent implements OnInit {
   constructor(private reportesService: ReportesService) {}
 
   ngOnInit(): void {
-    this.reportesService.obtenerReportes().subscribe({
-      next: (res) => {
-        this.reportes = res;
-        this.cargando = false;
-      },
+this.reportesService.obtenerReportes().subscribe({
+  next: (res) => {
+    this.reportes = res; // ✅ ya es un array directamente
+    this.cargando = false;
+  },
       error: (err) => {
         this.error = 'No se pudieron cargar los reportes';
         console.error(err);

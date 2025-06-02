@@ -23,8 +23,7 @@ export class MisReportesComponent implements OnInit {
   ngOnInit(): void {
 this.reportesService.obtenerReportesUsuario().subscribe({
   next: (data) => {
-    this.reportes = data;
-    this.cargando = false;
+    this.reportes = data; // ✅ ya es un array
   },
   error: (err) => {
     this.error = '❌ Error al cargar tus reportes';

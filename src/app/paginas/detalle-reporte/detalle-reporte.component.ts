@@ -7,6 +7,7 @@ import { Comentario } from '../../dto/comentario/comentario-dto';
 import { AuthService } from '../../servicios/auth.service';
 import { ComentarioService } from '../../servicios/comentario.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoriaDTO } from '../../dto/categoria/categoria-dto';
 @Component({
   selector: 'app-detalle-reporte',
   standalone: true,
@@ -21,6 +22,7 @@ export class DetalleReporteComponent implements OnInit {
   comentarios: Comentario[] = [];
   nuevoComentario: string = '';
   userId: string | null = null;
+  categorias: CategoriaDTO[] = [];
   comentarioEditando: Comentario | null = null;
 
 
@@ -35,26 +37,21 @@ constructor(
 
   ngOnInit(): void {
   const id = this.route.snapshot.paramMap.get('id');
-  this.userId = this.authService.getUserIdFromToken(); // ✅ CLAVE
-
-  console.log('📦 ID recibido:', id);
-  console.log('👤 Usuario actual:', this.userId);
+  console.log('🧾 ID recibido:', id);
+  this.userId = this.authService.getUserIdFromToken();
 
   if (id) {
     this.reporteService.obtenerReportePorId(id).subscribe({
       next: (r) => {
         this.reporte = r;
-        this.ubicacionTexto = r.ubicacion
-          ? `Lat: ${r.ubicacion.latitud}, Lng: ${r.ubicacion.longitud}`
-          : 'Sin ubicación registrada';
-
-        this.cargarComentarios(r.id); // ✅ Aquí cargamos comentarios
+        this.cargarComentarios(id); // ✅ usa el id de la URL
       },
       error: (err) => {
         console.error('❌ Error cargando reporte', err);
       }
     });
   }
+
 }
 
 
@@ -98,23 +95,20 @@ constructor(
     }
   }
 cargarComentarios(idReporte: string) {
-this.comentarioService.obtenerComentariosPorReporte(this.reporte.id).subscribe({
-  next: (data) => {
-    console.log("Respuesta completa del backend:", data);
-    if (!data.error && Array.isArray(data.respuesta)) {
-      this.comentarios = data.respuesta;
-      console.log("✅ Comentarios recibidos:", this.comentarios);
-    } else {
-      console.warn("⚠️ La respuesta no contiene un arreglo de comentarios.");
+  if (!idReporte) {
+    console.warn('⚠️ ID de reporte no válido');
+    return;
+  }
+
+  this.comentarioService.obtenerComentariosPorReporte(idReporte).subscribe({
+    next: (data) => {
+      this.comentarios = Array.isArray(data.respuesta) ? data.respuesta : [];
+    },
+    error: (err) => {
+      console.error("❌ Error al obtener comentarios:", err);
       this.comentarios = [];
     }
-  },
-  error: (err) => {
-    console.error("❌ Error al obtener comentarios:", err);
-    this.comentarios = [];
-  }
-});
-
+  });
 }
 
 

@@ -1,7 +1,7 @@
 <header class="bg-light py-3 shadow-sm rounded-bottom">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-between">
-      
+
       <!-- Logo + Título -->
       <a routerLink="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none fs-4 fw-bold">
         {{ title }}
@@ -10,22 +10,26 @@
       <!-- Navegación -->
       <ul class="nav me-auto ms-4">
         <li><a routerLink="/" class="nav-link px-3 text-dark">Inicio</a></li>
-        <li><a routerLink="/perfil" class="nav-link px-3 text-dark">Reportes</a></li>
-        <li><a routerLink="/como-funciona" class="nav-link px-3 text-dark">Cómo funciona</a></li>
-        <li><a routerLink="/contacto" class="nav-link px-3 text-dark">Contacto</a></li>
 
-        <!-- Solo si está logueado -->
-        <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_CLIENTE'">
-        <a routerLink="/crear-reporte" class="nav-link">Crear reporte</a>
-
+        <!-- Si CLIENTE logueado -->
+        <ng-container *ngIf="(isLoggedIn$ | async) && rolActual === 'ROLE_CLIENTE'">
+          <li><a routerLink="/reportes" class="nav-link px-3 text-dark">Reportes</a></li>
+          <li><a routerLink="/mis-reportes" class="nav-link px-3 text-dark">Mis reportes</a></li>
+          <li><a routerLink="/crear-reporte" class="nav-link px-3 text-dark">Crear reporte</a></li>
         </ng-container>
-        <ng-container *ngIf="(isLoggedIn$ | async) === true && rolActual === 'ROLE_MODERADOR'">
-          <li><a routerLink="/gestion-plan-alimenticio" class="nav-link px-3 text-dark">Gestionar Reporte</a></li>
+
+        <!-- Si MODERADOR logueado -->
+        <ng-container *ngIf="(isLoggedIn$ | async) && rolActual === 'ROLE_MODERADOR'">
+          <li><a routerLink="/reportes" class="nav-link px-3 text-dark">Reportes</a></li>
+          <li><a routerLink="/gestionar-reporte" class="nav-link px-3 text-dark">Gestionar Reporte</a></li>
+          <li><a routerLink="/categorias" class="nav-link px-3 text-dark">Categorías</a></li>
         </ng-container>
       </ul>
 
       <!-- Botones a la derecha -->
       <div class="text-end">
+
+        <!-- Si NO está logueado -->
         <ng-container *ngIf="(isLoggedIn$ | async) === false">
           <button routerLink="/login" class="btn btn-outline-dark me-2">
             <i class="fas fa-user"></i> Iniciar sesión
@@ -33,7 +37,8 @@
           <button routerLink="/registro" class="btn btn-success">Registro</button>
         </ng-container>
 
-        <ng-container *ngIf="(isLoggedIn$ | async) === true">
+        <!-- Si SÍ está logueado -->
+        <ng-container *ngIf="(isLoggedIn$ | async)">
           <div routerLink="/perfil" class="btn btn-success rounded-pill px-4 text-white fw-semibold">
             Bienvenido<br />
             {{ fechaActual }}
@@ -42,8 +47,8 @@
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión
           </button>
         </ng-container>
-      </div>
 
+      </div>
     </div>
   </div>
 </header>

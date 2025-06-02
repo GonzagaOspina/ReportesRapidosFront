@@ -56,7 +56,14 @@ export class CrearReporteComponent implements OnInit {
 
   private cargarCategorias() {
     this.reporteService.obtenerCategorias().subscribe({
-      next: (res) => this.categorias = res,
+     next: (res) => {
+  this.categorias = res.map(cat => ({
+    id: cat.id,
+    nombre: cat.nombre,
+    descripcion: cat.descripcion 
+  }));
+},
+
       error: (err) => {
         console.error('❌ Error al cargar categorías:', err);
         this.mensajeError = 'No se pudieron cargar las categorías';

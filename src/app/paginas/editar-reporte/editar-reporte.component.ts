@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReportesService } from '../../servicios/reportes.service';
 import { MapaService } from '../../servicios/mapa.service';
-import { CategoriaDTO } from '../../servicios/reportes.service';
+import { CategoriaDTO } from '../../dto/categoria/categoria-dto';
 import { EditarReporteDTO } from '../../dto/reporte/editar-reporte-dto';
 import { ReporteDTO } from '../../dto/reporte/reporte-dto';
 import { Ciudad } from '../../enum/ciudad.enum';
