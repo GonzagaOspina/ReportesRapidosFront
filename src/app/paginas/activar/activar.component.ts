@@ -56,9 +56,10 @@ export class ActivarComponent implements OnInit {
           alert('Cuenta activada correctamente ✅');
           this.router.navigate(['/login']);
         },
-        error: () => {
-          this.errorActivar.set(true);
-        }
+        error: (err) => {
+  console.error('Error activando usuario:', err);
+  this.errorActivar.set(true);
+}
       });
   }
 }

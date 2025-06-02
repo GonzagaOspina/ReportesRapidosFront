@@ -59,9 +59,13 @@ export class UsuariosService {
     });
   }
 activarUsuario(email: string, codigo: string): Observable<MensajeDTO<string>> {
-    console.log('API URL en activarUsuario:', this.apiUrl);
-  return this.http.post<MensajeDTO<string>>(`${this.apiUrl}/activar`, { email, codigo });
+  const url = `${this.apiUrl}/activar`;
+  console.log('Activar usuario URL:', url);
+  console.log('Payload:', { email, codigo });
+
+  return this.http.post<MensajeDTO<string>>(url, { email, codigo });
 }
+
 
   /**
    * Cambiar la contraseña del usuario
