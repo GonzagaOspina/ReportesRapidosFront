@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment} from '../../environments/environment';
 
 export interface LoginResponse { token: string; }
 
@@ -11,7 +12,8 @@ export interface LoginResponse { token: string; }
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:8080/api/login';
+
+private baseUrl = `${environment.apiUrl}/api/login`;
   private tokenKey = 'auth_token';
   private loggedIn$ = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
   private rolSubject = new BehaviorSubject<string | null>(this.getRroleFromToken());

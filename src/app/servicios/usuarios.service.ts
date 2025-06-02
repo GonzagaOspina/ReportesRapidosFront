@@ -6,7 +6,7 @@ import { UsuarioDTO } from '../dto/usuario/usuario-dto';
 import { EditarUsuarioDTO } from '../dto/usuario/editar-usuario-dto';
 import { MensajeDTO } from '../dto/mensaje-dto';
 import { AuthService } from './auth.service';
-import { environment } from '../../enviroments/enviroment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
