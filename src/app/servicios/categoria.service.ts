@@ -4,15 +4,15 @@ import { Observable, map } from 'rxjs';
 import { MensajeDTO } from '../dto/mensaje-dto';
 import { AuthService } from './auth.service';
 import { CategoriaDTO } from '../dto/categoria/categoria-dto';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
-
-  private baseUrlPublica = 'http://localhost:8080/api/categorias';
-  private baseUrlModerador = 'http://localhost:8080/api/moderador/categorias';
+  private baseUrlPublica = `${environment.apiUrl}/categorias`;
+  private baseUrlModerador = `${environment.apiUrl}/moderador/categorias`;
 
   constructor(
     private http: HttpClient,
