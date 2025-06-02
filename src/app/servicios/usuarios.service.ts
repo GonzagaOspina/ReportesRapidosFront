@@ -6,13 +6,14 @@ import { UsuarioDTO } from '../dto/usuario/usuario-dto';
 import { EditarUsuarioDTO } from '../dto/usuario/editar-usuario-dto';
 import { MensajeDTO } from '../dto/mensaje-dto';
 import { AuthService } from './auth.service';
+import { environment } from '../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  private readonly apiBase = 'http://localhost:8080/api/usuarios';
+  private apiUrl = `${environment.apiUrl}/api/usuarios`;
 
   constructor(
     private http: HttpClient,
@@ -28,14 +29,14 @@ export class UsuariosService {
    * Crear un nuevo usuario (registro)
    */
   crearUsuario(dto: CrearUsuarioDTO): Observable<MensajeDTO<string>> {
-    return this.http.post<MensajeDTO<string>>(`${this.apiBase}/registro`, dto);
+    return this.http.post<MensajeDTO<string>>(`${this.apiUrl}/registro`, dto);
   }
 
   /**
    * Obtener los datos del perfil del usuario autenticado
    */
   obtenerUsuario(): Observable<MensajeDTO<UsuarioDTO>> {
-    return this.http.get<MensajeDTO<UsuarioDTO>>(`${this.apiBase}/perfil`, {
+    return this.http.get<MensajeDTO<UsuarioDTO>>(`${this.apiUrl}/perfil`, {
       headers: this.authHeaders
     });
   }
@@ -44,7 +45,7 @@ export class UsuariosService {
    * Editar los datos del perfil del usuario autenticado
    */
   editarUsuario(dto: EditarUsuarioDTO): Observable<MensajeDTO<string>> {
-    return this.http.put<MensajeDTO<string>>(`${this.apiBase}/perfil`, dto, {
+    return this.http.put<MensajeDTO<string>>(`${this.apiUrl}/perfil`, dto, {
       headers: this.authHeaders
     });
   }
@@ -53,7 +54,7 @@ export class UsuariosService {
    * Eliminar la cuenta del usuario autenticado
    */
   eliminarUsuario(): Observable<MensajeDTO<string>> {
-    return this.http.delete<MensajeDTO<string>>(`${this.apiBase}/eliminar`, {
+    return this.http.delete<MensajeDTO<string>>(`${this.apiUrl}/eliminar`, {
       headers: this.authHeaders
     });
   }
@@ -62,7 +63,7 @@ export class UsuariosService {
    * Cambiar la contraseña del usuario
    */
   cambiarContrasena(actual: string, nueva: string): Observable<MensajeDTO<string>> {
-    return this.http.put<MensajeDTO<string>>(`${this.apiBase}/password`, {
+    return this.http.put<MensajeDTO<string>>(`${this.apiUrl}/password`, {
       actual,
       nueva
     }, {
